@@ -25,6 +25,9 @@ build/
 dist/
 *.egg-info/
 
+# Frontend dependencies
+node_modules/
+
 # Editor and OS files
 .vscode/
 .idea/

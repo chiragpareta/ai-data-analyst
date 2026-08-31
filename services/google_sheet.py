@@ -15,8 +15,8 @@ credentials = Credentials.from_service_account_file(
 
 client = gspread.authorize(credentials)
 
-sheet = client.open("ai_analyst").sheet1
 
+def get_sheet_data(sheet_url: str):
+    sheet = client.open_by_url(sheet_url).sheet1
 
-def get_sheet_data():
     return sheet.get_all_records()
