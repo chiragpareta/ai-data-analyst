@@ -1,6 +1,7 @@
 # Environment variables and secrets
 .env
 .env.*
+!.env.example
 credentials.json
 *credentials*.json
 *.pem
@@ -27,6 +28,7 @@ dist/
 
 # Frontend dependencies
 node_modules/
+dist/
 
 # Editor and OS files
 .vscode/

@@ -1,13 +1,20 @@
-from langchain.tools import tool
+from langchain_core.tools import tool
 
-from services.analytics_service import analyze_sales
+from services.analytics_service import analyze_data
 
 
 @tool
-def analyze_sales_data(question: str, sheet_url: str) -> dict:
+def run_python_analysis(
+    question: str,
+    data: list,
+    analysis_code: str
+):
     """
-    Analyze sales data from the user's Google Sheet
-    based on their question.
+    Run dynamically generated Python/Pandas code on loaded data.
     """
 
-    return analyze_sales(question, sheet_url)
+    return analyze_data(
+        question=question,
+        data=data,
+        analysis_code=analysis_code
+    )

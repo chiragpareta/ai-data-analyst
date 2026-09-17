@@ -106,6 +106,59 @@ Frontend:
 http://localhost:5173
 ```
 
+## Docker Setup
+
+Make sure Docker Desktop is installed and running.
+
+Create `.env` in the project root:
+
+```env
+GEMINI_API_KEY=your_api_key
+```
+
+Add your Google service-account file in the project root:
+
+```text
+credentials.json
+```
+
+Run both backend and frontend:
+
+```bash
+docker compose up --build
+```
+
+Open the app:
+
+```text
+http://localhost:3000
+```
+
+Backend API:
+
+```text
+http://localhost:8000
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+### Docker Files
+
+```text
+Dockerfile                  FastAPI backend image
+frontend/Dockerfile         React build + Nginx frontend image
+frontend/nginx.conf         Sends /ask requests to the backend container
+docker-compose.yml          Runs backend and frontend together
+.dockerignore               Keeps secrets and local files out of Docker images
+.env.example                Shows required environment variables
+```
+
+Secrets are not copied into Docker images. `GEMINI_API_KEY` is loaded from `.env`, and `credentials.json` is mounted into the backend container.
+
 ## Usage
 
 1. Open the React application.
@@ -141,8 +194,8 @@ ai_data_analyst/
 ├── services/
 ├── frontend/
 ├── requirements.txt
-├── .env
-├── credentials.json
+├── Dockerfile
+├── docker-compose.yml
 └── README.md
 ```
 
@@ -152,7 +205,6 @@ Working prototype.
 
 Future improvements:
 
-- Docker
 - Cloud deployment
 - Google OAuth
 - Data visualization

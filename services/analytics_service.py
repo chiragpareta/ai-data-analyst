@@ -1,27 +1,40 @@
+import matplotlib
+matplotlib.use("Agg")
+
 import pandas as pd
 
-from services.google_sheet import get_sheet_data
 
-
-def analyze_sales(question: str, sheet_url: str):
-
-    data = get_sheet_data(sheet_url)
+def analyze_data(question: str, data, analysis_code: str):
 
     df = pd.DataFrame(data)
 
-    total_sales = df["amount"].sum()
+    local_vars = {
+        "df": df,
+        "pd": pd,
+        "question": question,
+    }
 
-    highest_sale = df.loc[df["amount"].idxmax()]
-
-    product_sales = (
-        df.groupby("product")["amount"]
-        .sum()
-        .sort_values(ascending=False)
+    exec(
+        analysis_code,
+        {"__builtins__": __builtins__},
+        local_vars
     )
 
-    return {
-        "question": question,
-        "total_sales": float(total_sales),
-        "highest_transaction": highest_sale.to_dict(),
-        "sales_by_product": product_sales.to_dict(),
-    }
+    result = local_vars["result"]
+
+    if hasattr(result, "to_dict"):
+        return {
+            "type": "chart",
+            "chart": result.to_dict()
+        }
+
+    return result
+
+
+# TEST
+# question = "Show me the total sales"
+# sheet_url = "https://docs.google.com/spreadsheets/d/1rQvWqFS5ne40LluFPNMpuh3iy7DGtoKPwN9NOSFtSfA/edit?usp=sharing"
+
+# result = analyze_data(question, sheet_url)
+
+# print(result)
