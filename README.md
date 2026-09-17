@@ -1,80 +1,65 @@
 # AI Data Analyst
 
-An AI-powered data analyst that lets users connect their Google Sheet and ask questions about their data using natural language.
+AI-powered application for analyzing Google Sheets using natural language.
 
-## Features
-
-- Connect Google Sheet using its URL
-- Natural-language data analysis
-- Gemini LLM
-- LangChain Agent & Tool Calling
-- Pandas for data analysis
-- FastAPI backend
-- React frontend
+The application uses Gemini, LangChain, Pandas, FastAPI, and React to analyze data and generate text answers or charts.
 
 ## Tech Stack
 
-**Frontend:** React, JavaScript, Vite  
-**Backend:** Python, FastAPI  
-**AI:** Gemini, LangChain  
-**Data:** Google Sheets, Pandas
+**Backend:** Python, FastAPI, LangChain, Gemini, Pandas, gspread
 
-## Architecture
+**Frontend:** React 
+
+## Project Structure
 
 ```text
-React
-  ↓
-FastAPI
-  ↓
-LangChain Agent
-  ↓
-Gemini
-  ↓
-Analytics Tool
-  ↓
-Google Sheets
-  ↓
-Pandas
-  ↓
-Analysis Result
-  ↓
-Gemini
-  ↓
-Final Answer
+ai_data_analyst/
+├── main.py
+├── agent.py
+├── services/
+│   ├── analytics_service.py
+│   └── google_sheet.py
+├── tools/
+│   └── analytics_tool.py
+├── frontend/
+├── requirements.txt
+├── .env
+├── credentials.json
+└── README.md
 ```
 
 ## Setup
 
-### Backend
+### 1. Clone
 
-Create and activate virtual environment:
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd ai_data_analyst
+```
+
+### 2. Backend
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
 pip install -r requirements.txt
 ```
 
 Create `.env`:
 
 ```env
-GEMINI_API_KEY=your_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-Add your Google service-account file:
+Add your Google service account file as:
 
 ```text
 credentials.json
 ```
 
-Share your Google Sheet with the service-account email.
+The service account must have access to the Google Sheet.
 
-Run the backend:
+### 3. Start Backend
 
 ```bash
 uvicorn main:app --reload
@@ -86,13 +71,9 @@ Backend:
 http://127.0.0.1:8000
 ```
 
-API docs:
+### 4. Start Frontend
 
-```text
-http://127.0.0.1:8000/docs
-```
-
-### Frontend
+Open a new terminal:
 
 ```bash
 cd frontend
@@ -106,106 +87,37 @@ Frontend:
 http://localhost:5173
 ```
 
-## Docker Setup
-
-Make sure Docker Desktop is installed and running.
-
-Create `.env` in the project root:
-
-```env
-GEMINI_API_KEY=your_api_key
-```
-
-Add your Google service-account file in the project root:
-
-```text
-credentials.json
-```
-
-Run both backend and frontend:
-
-```bash
-docker compose up --build
-```
-
-Open the app:
-
-```text
-http://localhost:3000
-```
-
-Backend API:
-
-```text
-http://localhost:8000
-```
-
-Stop containers:
-
-```bash
-docker compose down
-```
-
-### Docker Files
-
-```text
-Dockerfile                  FastAPI backend image
-frontend/Dockerfile         React build + Nginx frontend image
-frontend/nginx.conf         Sends /ask requests to the backend container
-docker-compose.yml          Runs backend and frontend together
-.dockerignore               Keeps secrets and local files out of Docker images
-.env.example                Shows required environment variables
-```
-
-Secrets are not copied into Docker images. `GEMINI_API_KEY` is loaded from `.env`, and `credentials.json` is mounted into the backend container.
-
 ## Usage
 
-1. Open the React application.
-2. Enter your Google Sheet URL.
-3. Ask a question about your data.
+1. Open the frontend.
+2. Enter a Google Sheet URL.
+3. Enter a natural-language question.
 4. Click **Ask AI**.
-5. The agent analyzes the data and returns the answer.
 
 Example:
 
 ```text
-Which product has the highest sales?
+Create a bar chart showing total sales for each product.
 ```
 
 ## Security
 
-Never commit these files to GitHub:
+Do not commit sensitive files.
 
-```text
+Add to `.gitignore`:
+
+```gitignore
 .env
 credentials.json
+venv/
+__pycache__/
+node_modules/
 ```
 
-Add them to `.gitignore`.
+## Current Scope
 
-## Project Structure
-
-```text
-ai_data_analyst/
-├── main.py
-├── agent.py
-├── tools/
-├── services/
-├── frontend/
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-```
-
-## Status
-
-Working prototype.
-
-Future improvements:
-
-- Cloud deployment
-- Google OAuth
-- Data visualization
-- Support for different data schemas
+- Google Sheets
+- Dynamic Pandas analysis
+- Natural-language questions
+- Text answers
+- Chart generation
